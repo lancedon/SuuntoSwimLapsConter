@@ -3,7 +3,7 @@
 
 /* Loop counter */
 ScreenCnt = ScreenCnt + 1;
-if(ScreenCnt >= 6) {ScreenCnt = 0;}
+if(ScreenCnt >= 4) {ScreenCnt = 0;}
 
 /* get the total swiming length in meters */
 MetersSwim = SUUNTO_DISTANCE * 1000;
@@ -11,57 +11,53 @@ MetersSwim = SUUNTO_DISTANCE * 1000;
 if ( MetersSwim >= SUUNTO_SWIMMING_POOL_LENGTH ) {
   Pools = ( MetersSwim / SUUNTO_SWIMMING_POOL_LENGTH );
 
-  CountLaps = CountLaps + 1;
+  /* verify if you change the swim style */
+  if(SUUNTO_SWIMMING_PREVIOUS_POOL_LENGTH_STYLE != LastPoolStyle){
 
+    LastPoolStyle = SUUNTO_SWIMMING_PREVIOUS_POOL_LENGTH_STYLE;
+    CurrPools = 0;
+    PoolsUntilNow = Pools;
+
+  }else{
+
+    CurrPools = Pools - PoolsUntilNow;
+
+  }
+
+  /* Fill the postfix with the last swim style  */
   if (SUUNTO_SWIMMING_PREVIOUS_POOL_LENGTH_STYLE == 0) {
-      CountOther = CountOther + 1;
-      PrintStyles = CountOther;
       postfix = "Other";
   }
-  
   if (SUUNTO_SWIMMING_PREVIOUS_POOL_LENGTH_STYLE == 1) {
-      CountButterfly = CountButterfly + 1;
-      PrintStyles = CountButterfly;
       postfix = "Butter";
   }
-  
   if (SUUNTO_SWIMMING_PREVIOUS_POOL_LENGTH_STYLE == 2) {
-      CountBackstroke = CountBackstroke + 1;
-      PrintStyles = CountBackstroke;
       postfix = "Backst";
   }
-  
   if (SUUNTO_SWIMMING_PREVIOUS_POOL_LENGTH_STYLE == 3) {
-      CountBreaststroke = CountBreaststroke + 1;
-      PrintStyles = CountBreaststroke;
       postfix = "Breast";
-  }
-  
+  } 
   if (SUUNTO_SWIMMING_PREVIOUS_POOL_LENGTH_STYLE == 4) {
-      CountFreestyle = CountFreestyle + 1;
-      PrintStyles = CountFreestyle;
       postfix = "Freest";
   }
-  
   if (SUUNTO_SWIMMING_PREVIOUS_POOL_LENGTH_STYLE == 5) {
-      CountDrill = CountDrill + 1;
-      PrintStyles = CountDrill;
       postfix = "Drill";   
   }
   
-  print =   PrintStyles;
-  prefix = "";
 }
 
+/* keep prefix clear */
+prefix = "";
 
-
-if(ScreenCnt <= 3){
-	  print = Pools;
-      postfix = " done";
+/* adjust the screen speed to 2 seconds per each message */
+if(ScreenCnt <= 1){
+    /* 1 will be a full pool, when you go and back to the same point */
+	  print = Pools / 2;
+    postfix = " done";
   
-}else if ( ScreenCnt > 4 ) {
-	  print =   PrintStyles;
-      postfix = " done";
+}else if ( ScreenCnt > 2 ) {
+	  print =   CurrPools;
 }
 
+/* send the result to clock screen */ 
 RESULT = print;
