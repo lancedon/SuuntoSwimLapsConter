@@ -15,7 +15,7 @@ if ( MetersSwim >= SUUNTO_SWIMMING_POOL_LENGTH ) {
   if(SUUNTO_SWIMMING_PREVIOUS_POOL_LENGTH_STYLE != LastPoolStyle){
 
     LastPoolStyle = SUUNTO_SWIMMING_PREVIOUS_POOL_LENGTH_STYLE;
-    CurrPools = 0;
+    CurrPools = 1;
     PoolsUntilNow = Pools;
 
   }else{
@@ -56,7 +56,7 @@ if(ScreenCnt <= 1){
     postfix = " done";
   
 }else if ( ScreenCnt > 2 ) {
-	  print =   CurrPools;
+	  print =   CurrPools / 2;
 }
 
 /* send the result to clock screen */ 
