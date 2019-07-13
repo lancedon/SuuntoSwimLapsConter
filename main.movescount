@@ -1,0 +1,67 @@
+/* While in sport mode do this once per second */
+/* First loop */
+
+/* Loop counter */
+ScreenCnt = ScreenCnt + 1;
+if(ScreenCnt >= 6) {ScreenCnt = 0;}
+
+/* get the total swiming length in meters */
+MetersSwim = SUUNTO_DISTANCE * 1000;
+
+if ( MetersSwim >= SUUNTO_SWIMMING_POOL_LENGTH ) {
+  Pools = ( MetersSwim / SUUNTO_SWIMMING_POOL_LENGTH );
+
+  CountLaps = CountLaps + 1;
+
+  if (SUUNTO_SWIMMING_PREVIOUS_POOL_LENGTH_STYLE == 0) {
+      CountOther = CountOther + 1;
+      PrintStyles = CountOther;
+      postfix = "Other";
+  }
+  
+  if (SUUNTO_SWIMMING_PREVIOUS_POOL_LENGTH_STYLE == 1) {
+      CountButterfly = CountButterfly + 1;
+      PrintStyles = CountButterfly;
+      postfix = "Butter";
+  }
+  
+  if (SUUNTO_SWIMMING_PREVIOUS_POOL_LENGTH_STYLE == 2) {
+      CountBackstroke = CountBackstroke + 1;
+      PrintStyles = CountBackstroke;
+      postfix = "Backst";
+  }
+  
+  if (SUUNTO_SWIMMING_PREVIOUS_POOL_LENGTH_STYLE == 3) {
+      CountBreaststroke = CountBreaststroke + 1;
+      PrintStyles = CountBreaststroke;
+      postfix = "Breast";
+  }
+  
+  if (SUUNTO_SWIMMING_PREVIOUS_POOL_LENGTH_STYLE == 4) {
+      CountFreestyle = CountFreestyle + 1;
+      PrintStyles = CountFreestyle;
+      postfix = "Freest";
+  }
+  
+  if (SUUNTO_SWIMMING_PREVIOUS_POOL_LENGTH_STYLE == 5) {
+      CountDrill = CountDrill + 1;
+      PrintStyles = CountDrill;
+      postfix = "Drill";   
+  }
+  
+  print =   PrintStyles;
+  prefix = "";
+}
+
+
+
+if(ScreenCnt <= 3){
+	  print = Pools;
+      postfix = " done";
+  
+}else if ( ScreenCnt > 4 ) {
+	  print =   PrintStyles;
+      postfix = " done";
+}
+
+RESULT = print;
